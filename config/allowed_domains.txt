@@ -1,0 +1,6 @@
+# Lista de domínios permitidos para scan
+# Exemplo:
+example.com
+meusite.com
+localhost
+testphp.vulnweb.com 

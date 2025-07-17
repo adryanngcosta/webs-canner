@@ -1,0 +1,15 @@
+# Ignorar relatórios e logs gerados
+reports/
+logs/
+
+# Ignorar arquivos de senha e configurações sensíveis
+config/.scanner_passwd
+
+# Ignorar arquivos temporários do sistema
+*.pyc
+__pycache__/
+.DS_Store
+
+# Ignorar ambientes virtuais
+venv/
+.env/ 
